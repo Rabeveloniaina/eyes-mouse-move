@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: black;
+}
+
+@property --eyelid {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --eyelid2 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.eyes {
+  width: 250px;
+  padding-block: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.eyes > div {
+  position: relative;
+  width: 90px;
+  aspect-ratio: 1;
+  background: #fff;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyes > div i {
+  position: absolute;
+  width: 60px;
+  aspect-ratio: inherit;
+  background: radial-gradient(
+    circle,
+    #2b1d17 20%,
+    #000000 100%
+  ); /* Couleur marron foncé ajustée et dégradée vers le noir */
+  border-radius: inherit;
+}
+
+.shine {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.6); /* Reflet lumineux */
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.1s ease-in-out;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  top: 10%;
+  right: 10%; /* Reflet statique en haut à droite de l'œil */
+}
+
+.eyes > div:before,
+.eyes > div:after {
+  content: "";
+  position: absolute;
+  width: 116%;
+  height: 165%;
+  left: 50%;
+  animation: eyelid 5s ease-in-out infinite;
+  z-index: 1;
+}
+
+.eyes > div:before {
+  top: 0;
+  border-radius: 0% 0% 40% 40%;
+  transform: translateY(var(--eyelid)) translateX(-50%);
+  border-bottom: 40px solid black;
+}
+
+.eyes > div:after {
+  bottom: 0;
+  border-radius: 40% 40% 0% 0%;
+  transform: translateY(var(--eyelid2)) translateX(-50%);
+  border-top: 40px solid black;
+}
+
+/* Effet de fermeture des yeux au survol */
+.eyes > div:hover:before,
+.eyes > div:hover:after {
+  transform: translateY(0) translateX(-50%); /* Ferme les paupières */
+  border-bottom: 40px solid #000; /* Paupières supérieures fermées */
+  border-top: 40px solid #000; /* Paupières inférieures fermées */
+}
+
+/* Animation de clignotement rapide au clic */
+.eyes > div.clicked:before,
+.eyes > div.clicked:after {
+  animation: quickBlink 0.5s ease-in-out 3; /* Clignotement rapide 3 fois */
+}
+
+@keyframes quickBlink {
+  0% {
+    --eyelid: -50%;
+    --eyelid2: 50%;
+  }
+  50% {
+    --eyelid: 0%;
+    --eyelid2: 0%;
+  }
+  100% {
+    --eyelid: -50%;
+    --eyelid2: 50%;
+  }
+}
+
+@keyframes eyelid {
+  0%,
+  100% {
+    --eyelid: -50%;
+    --eyelid2: 50%;
+  }
+  3% {
+    --eyelid: 0%;
+    --eyelid2: 0%;
+  }
+  6% {
+    --eyelid: -50%;
+    --eyelid2: 50%;
+  }
+  9%,
+  100% {
+    --eyelid: 0%;
+    --eyelid2: 0%;
+  }
+}
